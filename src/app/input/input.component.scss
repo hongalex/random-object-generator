@@ -1,0 +1,44 @@
+$mobile-only: "only screen and (max-width : 768px)";
+$laptop-only: "only screen and (min-width : 769px)";
+$tablet-only: "only screen and (max-width : 1024px)";
+
+
+#submitField {
+  background-color: #F6F6EF;
+  position: relative;
+  min-height: 85px;
+  padding-top: 10px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 15px;
+  height: 100%;
+
+   @media #{$mobile-only} {
+  }
+}
+
+p {
+  text-align: center;
+}
+
+input[type=text] {
+  position:absolute;
+  left:40%;
+  transform: translateX(-40%);
+  -webkit-transform: translateX(-40%);
+  width: 25%;
+
+  @media #{$mobile-only} {
+    width: 35%;
+  }
+}
+
+button {
+  position:absolute;
+  left:60%;
+  transform: translateX(-60%);
+  -webkit-transform: translateX(-60%);
+  @media #{$mobile-only} {
+    left:70%;
+    width: 10%;
+  }
+}

@@ -4,16 +4,13 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [
-      "es2016",
-      "dom"
-    ],
+    "lib": ["es2016", "dom"],
     "mapRoot": "./",
-    "module": "es2015",
+    "module": "ES6",
     "moduleResolution": "node",
     "outDir": "../dist/out-tsc",
     "sourceMap": true,
-    "target": "es5",
+    "target": "ES2016", 
     "typeRoots": [
       "../node_modules/@types"
     ]

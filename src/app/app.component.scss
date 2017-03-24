@@ -1,0 +1,22 @@
+$mobile-only: "only screen and (max-width : 768px)";
+
+h1 {
+  padding-top: 30px;
+  text-align: center;
+}
+
+#wrapper {
+  background-color: #F6F6EF;
+  position: relative;
+  width: 85%;
+  min-height: 100%;
+  margin: 0 auto;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 15px;
+  height: 500%;
+
+   @media #{$mobile-only} {
+    width: 100%;
+    background-color: #fff;
+  }
+}

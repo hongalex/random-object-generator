@@ -1,9 +1,79 @@
 import { Injectable } from '@angular/core';
+var colorsJson = require('../../node_modules/material-colors-json/colors.json')
 
 @Injectable()
 export class RandomItemService {
 
-  validItems = ['d4', 'd6', 'd10', 'd20', 'coin', 'color', 'horoscope'];
+  validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes'];
+
+  randomItem(item: string, quantity: number) : string {
+    var itemResult: string = item + ": | ";
+
+    // Set upper bound of rolls to be 500
+    if(quantity > 500) {
+      return item + " error: The max limit for any object is 500 results, please try again\n";
+    }
+
+    // Dice roll 
+    if(item[0]=='d') {
+      var count : number = 0;
+      let diceValue : number = parseInt(item.substr(1));
+      if(isNaN(diceValue)) {
+        return item + " error: Not a valid dice value"
+      }
+
+      for(let i=0; i<quantity; i++) {
+        // Get a random number between 1 and diceValue (inclusive)
+        var roll : number = Math.floor(Math.random() * diceValue) + 1;
+        count += roll;
+        itemResult += roll + " | ";
+      }
+      itemResult += "\n\t The sum of "+ quantity + " " + item + "s is " + count;
+    }
+    // Color
+    else if(item.substr(0,5) == "color") {
+      // Colors from Google's Material Design color palette 
+      // Imported using npm i material-colors-json
+      var colorsArray : string[] = Object.keys(colorsJson);
+
+      for(var i=0; i<quantity; i++) {
+        var randomColorIndex = Math.floor(Math.random() * colorsArray.length);
+        itemResult += colorsArray[randomColorIndex] + ' | ';
+      }
+    }
+    // Coin flip
+    else if(item.substr(0,4) == "coin") {
+      var heads: number = 0, tails : number = 0;
+      for(let i=0; i<quantity; i++) {
+        var flip = Math.floor(Math.random()*2)==0;
+        if(flip) {
+          itemResult += "Head | "; 
+          heads++;
+        } else {
+          itemResult += "Tail | ";
+          tails++;
+        }
+      }
+      itemResult += "\n\t Heads: " + heads + " | Tails: " + tails;
+    }
+    // Horoscopes
+    else if(item.substr(0,9) == "horoscope") {
+      const horoscopes : string[] = ['Aries','Taurus','Gemini','Cancer','Leo',
+        'Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+
+      for(let i=0; i<quantity; i++) {
+        itemResult += horoscopes[Math.floor(Math.random() * horoscopes.length)] + " | ";
+      }
+    }
+    else {
+
+    }
+
+    // Add last new line 
+    itemResult += "\n"
+    return itemResult;
+  }
+
 
   parseString(inputString: string) : Map<string,number> {
     //var map : { [type: string]: number; } = {};
@@ -14,7 +84,7 @@ export class RandomItemService {
     inputString = inputString.toLowerCase();
     var items = inputString.split(',');
 
-    for(let itemString of items) {
+    for(const itemString of items) {
       // Boolean flags for successful parsing of string
       var foundValidItem: boolean = false;
       var foundValidQuantity: boolean = false;
@@ -24,7 +94,7 @@ export class RandomItemService {
       var quantity: number;
 
       // Split string into words
-      var keywords = itemString.split(' ');
+      var keywords : string[] = itemString.split(' ');
       // Remove empty string elements
       keywords = keywords.filter(v=>v!='');
 
@@ -33,7 +103,7 @@ export class RandomItemService {
 
         // Attempt to parse for a validItem
         // If more than one is found, the input is invalid
-        for(let keyword of keywords) {
+        for(const keyword of keywords) {
           if(this.validItems.indexOf(keyword,0) >= 0) { 
             // If you already looped over a valid item, this input becomes invalid
             if(foundValidItem) {
@@ -44,7 +114,7 @@ export class RandomItemService {
             // Keep track of the item
             item = keyword;
             // Remove item from keywords
-            var index = keywords.indexOf(item,0);
+            var index : number = keywords.indexOf(item,0);
             keywords.splice(index,1);
           }
         }
@@ -58,7 +128,8 @@ export class RandomItemService {
             foundValidQuantity = true;
           } else if(keywords.length==1) {
             quantity = parseInt(keywords[0],10);
-            if(quantity == NaN) {
+            // If the value is not a number or is not a positive number
+            if(quantity == NaN || quantity <= 0) {
               foundValidQuantity = false;
             } else {
               foundValidQuantity = true;
@@ -67,11 +138,12 @@ export class RandomItemService {
         }
 
         if(foundValidItem && foundValidQuantity) {
-          map.set(item,quantity);
-          //console.log("Map result: " + item + "," + quantity);
-        } else {
-          //console.log("No valid input found");
-        }
+          if(map.has(item)) {
+            map.set(item, map.get(item)+quantity);
+          } else {
+            map.set(item,quantity);
+          }
+        } 
       }
     }
 
@@ -79,12 +151,15 @@ export class RandomItemService {
   }
 
   generateItems(itemMap: Map<string,number>) : string {
-    var result = "";
+    var result : string = "";
     itemMap.forEach((value: number, key: string) => {
-        //result += key + ": " + value + "\n";
+      //result += key + ": " + value + "\n";
+      result += this.randomItem(key, value);
     });
 
     return result;
   }
+
+
 
 }

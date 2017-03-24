@@ -11,9 +11,6 @@ $tablet-only: "only screen and (max-width : 1024px)";
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 15px;
   height: 100%;
-
-   @media #{$mobile-only} {
-  }
 }
 
 p {
@@ -21,24 +18,17 @@ p {
 }
 
 input[type=text] {
-  position:absolute;
-  left:40%;
-  transform: translateX(-40%);
-  -webkit-transform: translateX(-40%);
-  width: 25%;
+  position:relative;
+  width: 35%;
+  margin-left: 30%;
 
   @media #{$mobile-only} {
-    width: 35%;
+    //width: 40%;
+    //margin-left: 25%;
   }
 }
 
 button {
-  position:absolute;
-  left:60%;
-  transform: translateX(-60%);
-  -webkit-transform: translateX(-60%);
-  @media #{$mobile-only} {
-    left:70%;
-    width: 10%;
-  }
+  position: relative;
+  display: inline-block;
 }

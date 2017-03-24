@@ -2,30 +2,45 @@ $mobile-only: "only screen and (max-width : 768px)";
 $laptop-only: "only screen and (min-width : 769px)";
 $tablet-only: "only screen and (max-width : 1024px)";
 
-textarea {
-  outline: none;
-  resize: none;
-  position:relative;
-  left:50%;
-  transform: translateX(-50%);
-  -webkit-transform: translateX(-50%);
-  max-width: 80%;
-
-}
 
 #result {
   background-color: #F6F6EF;
   position: relative;
-  width: 85%;
+  width: 90%;
   min-height: 200px;
   padding-bottom: 90px;
   margin: 0 auto;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 15px;
   height: 100%;
+}
 
-   @media #{$mobile-only} {
-    width: 100%;
-    background-color: #fff;
+textarea {
+  outline: none;
+  resize: none;
+  position:relative;
+  margin-left: 20%;
+  margin-right: 20%;
+  max-width:60%;
+  min-width:60%;
+
+  @media #{$mobile-only} {
+    margin-left: 15%;
+    margin-right: 15%;
+    max-width: 70%;
+    min-width: 70%;
   }
+
+}
+
+h3 {
+  position:relative;
+  margin-left: 20%;
+  margin-right: 20%;
+
+  @media #{$mobile-only} {
+    margin-left: 15%;
+    margin-right: 15%;
+  }
+
 }

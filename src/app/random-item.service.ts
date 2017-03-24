@@ -28,7 +28,11 @@ export class RandomItemService {
         count += roll;
         itemResult += roll + " | ";
       }
-      itemResult += "\n\t The sum of "+ quantity + " " + item + "s is " + count;
+      if(quantity > 1) {
+        itemResult += "\n\t The sum of "+ quantity + " " + item + "s is " + count;
+      } else {
+        itemResult += "\n\t The sum of "+ quantity + " " + item + " is " + count;
+      }
     }
     // Color
     else if(item.substr(0,5) == "color") {

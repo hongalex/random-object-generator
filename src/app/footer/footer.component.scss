@@ -2,10 +2,18 @@ $mobile-only: "only screen and (max-width : 768px)";
 $laptop-only: "only screen and (min-width : 769px)";
 $tablet-only: "only screen and (max-width : 1024px)";
 
+p {
+
+  margin: none;
+  padding: none;
+}
+
 #footer {
-  position: relative;
-  padding: 10px;
-  height: 60px;
+  width: 100%;
+  position: absolute;
+  height: 90px;
+  bottom:15px;
+  clear: both;
   border-top: 1px solid #b92b27;
   letter-spacing: 0.7px;
   text-align: center;

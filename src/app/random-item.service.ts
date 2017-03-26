@@ -5,6 +5,7 @@ var colorsJson = require('../../node_modules/material-colors-json/colors.json')
 export class RandomItemService {
 
   validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes'];
+  //validItems: string[] = ['d[0-9]+', 'coin*', 'color*', 'horoscope*']; 
 
   randomItem(item: string, quantity: number) : string {
     var itemResult: string = item + ": | ";

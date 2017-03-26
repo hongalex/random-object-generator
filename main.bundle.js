@@ -272,6 +272,7 @@ var RandomItemService = (function () {
     function RandomItemService() {
         this.validItems = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes'];
     }
+    //validItems: string[] = ['d[0-9]+', 'coin*', 'color*', 'horoscope*']; 
     RandomItemService.prototype.randomItem = function (item, quantity) {
         var itemResult = item + ": | ";
         // Set upper bound of rolls to be 500
@@ -447,7 +448,7 @@ exports = module.exports = __webpack_require__(74)();
 
 
 // module
-exports.push([module.i, "h1 {\n  padding-top: 30px;\n  text-align: center; }\n\n#wrapper {\n  background-color: #F6F6EF;\n  position: relative;\n  width: 85%;\n  min-height: 100%;\n  margin: 0 auto;\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n  font-size: 15px;\n  height: 500%; }\n  @media only screen and (max-width: 768px) {\n    #wrapper {\n      width: 100%; } }\n", ""]);
+exports.push([module.i, "h1 {\n  padding-top: 30px;\n  text-align: center; }\n\n#wrapper {\n  background-color: #F6F6EF;\n  position: relative;\n  width: 85%;\n  min-height: 100%;\n  max-height: 100%;\n  margin: 0 auto;\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n  font-size: 15px; }\n  @media only screen and (max-width: 768px) {\n    #wrapper {\n      width: 100%; } }\n", ""]);
 
 // exports
 
@@ -465,7 +466,7 @@ exports = module.exports = __webpack_require__(74)();
 
 
 // module
-exports.push([module.i, "#footer {\n  position: relative;\n  padding: 10px;\n  height: 60px;\n  border-top: 1px solid #b92b27;\n  letter-spacing: 0.7px;\n  text-align: center; }\n  #footer a {\n    color: #b92b27;\n    font-weight: bold;\n    text-decoration: none; }\n    #footer a:hover {\n      text-decoration: underline; }\n", ""]);
+exports.push([module.i, "p {\n  margin: none;\n  padding: none; }\n\n#footer {\n  width: 100%;\n  position: absolute;\n  height: 90px;\n  bottom: 15px;\n  clear: both;\n  border-top: 1px solid #b92b27;\n  letter-spacing: 0.7px;\n  text-align: center; }\n  #footer a {\n    color: #b92b27;\n    font-weight: bold;\n    text-decoration: none; }\n    #footer a:hover {\n      text-decoration: underline; }\n", ""]);
 
 // exports
 
@@ -483,7 +484,7 @@ exports = module.exports = __webpack_require__(74)();
 
 
 // module
-exports.push([module.i, "#submitField {\n  background-color: #F6F6EF;\n  position: relative;\n  min-height: 85px;\n  padding-top: 10px;\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n  font-size: 15px;\n  height: 100%; }\n\np {\n  text-align: center; }\n\ninput[type=text] {\n  position: relative;\n  width: 35%;\n  margin-left: 30%; }\n\nbutton {\n  position: relative;\n  display: inline-block; }\n", ""]);
+exports.push([module.i, "#submitField {\n  background-color: #F6F6EF;\n  position: relative;\n  min-height: 85px;\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n  font-size: 15px; }\n\np {\n  text-align: center; }\n\ninput[type=text] {\n  position: relative;\n  width: 35%;\n  margin-left: 30%; }\n\nbutton {\n  position: relative;\n  display: inline-block; }\n", ""]);
 
 // exports
 
@@ -501,7 +502,7 @@ exports = module.exports = __webpack_require__(74)();
 
 
 // module
-exports.push([module.i, "#result {\n  background-color: #F6F6EF;\n  position: relative;\n  width: 90%;\n  min-height: 200px;\n  padding-bottom: 90px;\n  margin: 0 auto;\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n  font-size: 15px;\n  height: 100%; }\n\ntextarea {\n  outline: none;\n  resize: none;\n  position: relative;\n  margin-left: 20%;\n  margin-right: 20%;\n  max-width: 60%;\n  min-width: 60%; }\n  @media only screen and (max-width: 768px) {\n    textarea {\n      margin-left: 15%;\n      margin-right: 15%;\n      max-width: 70%;\n      min-width: 70%; } }\n\nh3 {\n  position: relative;\n  margin-left: 20%;\n  margin-right: 20%; }\n  @media only screen and (max-width: 768px) {\n    h3 {\n      margin-left: 15%;\n      margin-right: 15%; } }\n", ""]);
+exports.push([module.i, "#result {\n  background-color: #F6F6EF;\n  position: relative;\n  width: 90%;\n  min-height: 200px;\n  padding-bottom: 90px;\n  margin: 0 auto;\n  font-family: \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n  font-size: 15px; }\n\ntextarea {\n  outline: none;\n  resize: none;\n  position: relative;\n  margin-left: 20%;\n  margin-right: 20%;\n  max-width: 60%;\n  min-width: 60%;\n  height: 30vh; }\n  @media only screen and (max-width: 768px) {\n    textarea {\n      margin-left: 15%;\n      margin-right: 15%;\n      max-width: 70%;\n      min-width: 70%; } }\n\nh3 {\n  position: relative;\n  margin-left: 20%;\n  margin-right: 20%; }\n  @media only screen and (max-width: 768px) {\n    h3 {\n      margin-left: 15%;\n      margin-right: 15%; } }\n", ""]);
 
 // exports
 

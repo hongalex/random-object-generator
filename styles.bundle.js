@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(74)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "html,\nbody {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  overflow: hidden; }\n", ""]);
 
 // exports
 

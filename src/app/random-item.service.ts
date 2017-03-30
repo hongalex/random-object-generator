@@ -1,11 +1,34 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { HearthstoneCard } from './hearthstone-card'
+import 'rxjs/add/operator/map';
+
 var colorsJson = require('../../node_modules/material-colors-json/colors.json')
 
 @Injectable()
 export class RandomItemService {
 
-  validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes'];
+  constructor(private http: Http) { 
+    // Load in the 
+    if(this._hearthstoneCardsJson == undefined) {
+      this._hearthstoneCard$.subscribe(
+        requestData => {
+          this._hearthstoneCardsJson = requestData;
+        },
+        // handle the error
+        error => console.log(error)
+      );
+    }
+  }
+
+  validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes', 'hs_card'];
   //validItems: string[] = ['d[0-9]+', 'coin*', 'color*', 'horoscope*']; 
+
+  private hearthstoneUrl : string = "https://api.hearthstonejson.com/v1/17994/enUS/cards.collectible.json"
+
+  private _hearthstoneCard$ : Observable<HearthstoneCard[]> = this.http.get(this.hearthstoneUrl).map(res => res.json());
+  private _hearthstoneCardsJson : HearthstoneCard[];
 
   randomItem(item: string, quantity: number) : string {
     var itemResult: string = item + ": | ";
@@ -42,7 +65,7 @@ export class RandomItemService {
       var colorsArray : string[] = Object.keys(colorsJson);
 
       for(var i=0; i<quantity; i++) {
-        var randomColorIndex = Math.floor(Math.random() * colorsArray.length);
+        var randomColorIndex : number = Math.floor(Math.random() * colorsArray.length);
         itemResult += colorsArray[randomColorIndex] + ' | ';
       }
     }
@@ -70,8 +93,15 @@ export class RandomItemService {
         itemResult += horoscopes[Math.floor(Math.random() * horoscopes.length)] + " | ";
       }
     }
+    // Hearthstone cards
+    else if(item.substr(0,7) == "hs_card") {
+      for(let i=0; i<quantity; i++) {
+        var randomCardIndex : number = Math.floor(Math.random() * this._hearthstoneCardsJson.length);
+        itemResult += this._hearthstoneCardsJson[randomCardIndex].name + ' | ';
+      }
+    }
+    // Other stuff to do
     else {
-
     }
 
     // Add last new line 
@@ -164,6 +194,26 @@ export class RandomItemService {
 
     return result;
   }
+
+
+  ngOnInit() {
+
+  }
+  // Get Hearthstone Cards into cached replay subject
+  /* getHearthstoneData(refresh?: boolean) {
+    if (!this._hearthstoneCard.observers.length || refresh) {
+      this.http.get(this.hearthstoneUrl)
+      .map(res => res.json())
+      .subscribe(
+        data => { console.log("Getting data..."); this._hearthstoneCard.next(data)},
+        error => {
+          this._hearthstoneCard.error(error);
+          this._hearthstoneCard = new ReplaySubject(1);
+        }
+      );
+    }
+
+  } */
 
 
 

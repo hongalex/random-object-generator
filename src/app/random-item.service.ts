@@ -22,7 +22,8 @@ export class RandomItemService {
     }
   }
 
-  validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes', 'hs_card'];
+  // Currently supported items for item generation
+  validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes', 'hs_card', 'hs_cards'];
   //validItems: string[] = ['d[0-9]+', 'coin*', 'color*', 'horoscope*']; 
 
   private hearthstoneUrl : string = "https://api.hearthstonejson.com/v1/17994/enUS/cards.collectible.json"
@@ -109,7 +110,8 @@ export class RandomItemService {
     return itemResult;
   }
 
-
+  // Parse a user input string for objects to randomly generate
+  // Returns a map of objects, and their quantities for RNG 
   parseString(inputString: string) : Map<string,number> {
     //var map : { [type: string]: number; } = {};
 
@@ -181,7 +183,6 @@ export class RandomItemService {
         } 
       }
     }
-
     return map;
   }
 
@@ -195,10 +196,6 @@ export class RandomItemService {
     return result;
   }
 
-
-  ngOnInit() {
-
-  }
   // Get Hearthstone Cards into cached replay subject
   /* getHearthstoneData(refresh?: boolean) {
     if (!this._hearthstoneCard.observers.length || refresh) {

@@ -23,8 +23,16 @@ export class RandomItemService {
   }
 
   // Currently supported items for item generation
-  validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes', 'hs_card', 'hs_cards'];
-  //validItems: string[] = ['d[0-9]+', 'coin*', 'color*', 'horoscope*']; 
+  //validItems : string[] = ['d4', 'd6', 'd10', 'd20', 'coin', 'coins', 'color', 'colors', 'horoscope', 'horoscopes', 'hs_card', 'hs_cards'];
+  validItems = [
+      '\\bcoin[s]?\\b', // Coins
+      '\\bd[0-9]+\\b', // Dice
+      '\\bcolor[s]?\\b', // Colors
+      '\\bhoroscope[s]?\\b', // Horoscopes
+      '\\bhs_card[s]?\\b' // Hearthstone Cards
+  ];
+  validItemRegExp = new RegExp(this.validItems.join("|"), "i");
+
 
   private hearthstoneUrl : string = "https://api.hearthstonejson.com/v1/17994/enUS/cards.collectible.json"
 
@@ -141,7 +149,7 @@ export class RandomItemService {
         // Attempt to parse for a validItem
         // If more than one is found, the input is invalid
         for(const keyword of keywords) {
-          if(this.validItems.indexOf(keyword,0) >= 0) { 
+          if(keyword.match(this.validItemRegExp)) { 
             // If you already looped over a valid item, this input becomes invalid
             if(foundValidItem) {
               foundValidItem = false;

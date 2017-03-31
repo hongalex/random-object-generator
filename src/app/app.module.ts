@@ -8,6 +8,8 @@ import { FooterComponent } from './footer/footer.component';
 import { InputComponent } from './input/input.component';
 import { ResultComponent } from './result/result.component';
 
+import { SecureRandomNumberService } from './secure-random-number.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +22,7 @@ import { ResultComponent } from './result/result.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [SecureRandomNumberService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

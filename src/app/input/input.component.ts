@@ -19,7 +19,7 @@ export class InputComponent implements OnInit {
 
   constructor(private _randomItemService: RandomItemService) { }
 
-	submit(input : string) : void {
+	submit(input : string): void {
 		this.inputString = input;
 
 		// Parse the string for valid items 

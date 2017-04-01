@@ -10,34 +10,16 @@ var colorsJson = require('../../node_modules/material-colors-json/colors.json')
 @Injectable()
 export class RandomItemService {
 
-  constructor(private http: Http, private randomNumberService: SecureRandomNumberService) { 
-    // Load in the hearthstone file if not initialized
-    if(this._hearthstoneCardsJson == undefined) {
-      this._hearthstoneCard$.subscribe(
-        requestData => {
-          this._hearthstoneCardsJson = requestData;
-        },
-        // handle the error
-        error => console.log(error)
-      );
-    }
-  }
-
   // Currently supported items for item generation
   validItems: string[] = [
       '\\bcoin[s]?\\b', // Coins
-      '\\bd[0-9]+\\b', // Dice
+      '\\bd[1-9]+[0-9]*\\b', // Dice
       '\\bcolor[s]?\\b', // Colors
       '\\bhoroscope[s]?\\b', // Horoscopes
-      '\\bhs_card[s]?\\b' // Hearthstone Cards
+      '\\bhs_card[s]?\\b', '\\bhearthstone', // Hearthstone Cards
+      '\\bmagic8ball[s]?\\b', '\\b8ball[s]?\\b' // Magic-8-Ball
   ];
   validItemRegExp: RegExp = new RegExp(this.validItems.join("|"), "i");
-
-
-  private hearthstoneUrl: string = "https://api.hearthstonejson.com/v1/17994/enUS/cards.collectible.json"
-
-  private _hearthstoneCard$: Observable<HearthstoneCard[]> = this.http.get(this.hearthstoneUrl).map(res => res.json());
-  private _hearthstoneCardsJson: HearthstoneCard[];
 
   randomItem(item: string, quantity: number): string {
     var itemResult: string = item + ": | ";
@@ -48,7 +30,7 @@ export class RandomItemService {
     }
 
     // Dice roll 
-    if(item[0]=='d') {
+    if(item.match(/\bd[1-9]+[0-9]*\b/i)) {
       var count: number = 0;
       let diceValue:number = parseInt(item.substr(1));
       if(isNaN(diceValue)) {
@@ -70,8 +52,9 @@ export class RandomItemService {
         itemResult += "\n\t The sum of "+ quantity + " " + item + " is " + count;
       }
     }
+
     // Color
-    else if(item.substr(0,5) == "color") {
+    else if(item.match(/\bcolor[s]?\b/i)) {
       // Colors from Google's Material Design color palette 
       // Imported using npm i material-colors-json
       var colorsArray: string[] = Object.keys(colorsJson);
@@ -81,8 +64,9 @@ export class RandomItemService {
         itemResult += colorsArray[index] + ' | ';
       });
     }
+
     // Coin flip
-    else if(item.substr(0,4) == "coin") {
+    else if(item.match(/\bcoin[s]?\b/i)) {
       var heads: number = 0, tails : number = 0;
       var coinFlips: Uint16Array = this.randomNumberService.getRandomIntegerList(0,1,quantity)
       coinFlips.forEach(flip => {
@@ -96,8 +80,9 @@ export class RandomItemService {
       }); 
       itemResult += "\n\t Heads: " + heads + " | Tails: " + tails;
     }
+
     // Horoscopes
-    else if(item.substr(0,9) == "horoscope") {
+    else if(item.match(/\bhoroscope[s]?\b/i)) {
       const horoscopes: string[] = ['Aries','Taurus','Gemini','Cancer','Leo',
         'Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
 
@@ -106,15 +91,25 @@ export class RandomItemService {
         itemResult += horoscopes[index] + ' | ';
       });
     }
+
     // Hearthstone cards
-    else if(item.substr(0,7) == "hs_card") {
+    else if(item.match(/\bhs_card[s]?\b|\bhearthstone/i)) {
       var randomHoroscopeIndexes: Uint16Array = this.randomNumberService.getRandomIntegerList(0,this._hearthstoneCardsJson.length-1,quantity);
       randomHoroscopeIndexes.forEach(index => {
         itemResult += this._hearthstoneCardsJson[index].name + ' | ';
       });
     }
+
+    // Magic 8 Ball
+    else if(item.match(/\bmagic8ball[s]?\b|\b8ball[s]?\b/i)){
+      var randomMagic8BallResponse: Uint16Array = this.randomNumberService.getRandomIntegerList(0,this.magic8ballResponses.length-1,quantity);
+      randomMagic8BallResponse.forEach(index => {
+        itemResult += this.magic8ballResponses[index] + ' | ';
+      });
+    }
     // Other stuff to do
     else {
+
     }
 
     // Add last new line 
@@ -208,22 +203,44 @@ export class RandomItemService {
     return result;
   }
 
-  // Get Hearthstone Cards into cached replay subject
-  /* getHearthstoneData(refresh?: boolean) {
-    if (!this._hearthstoneCard.observers.length || refresh) {
-      this.http.get(this.hearthstoneUrl)
-      .map(res => res.json())
-      .subscribe(
-        data => { console.log("Getting data..."); this._hearthstoneCard.next(data)},
-        error => {
-          this._hearthstoneCard.error(error);
-          this._hearthstoneCard = new ReplaySubject(1);
-        }
+  private hearthstoneUrl: string = "https://api.hearthstonejson.com/v1/17994/enUS/cards.collectible.json"
+  private _hearthstoneCard$: Observable<HearthstoneCard[]> = this.http.get(this.hearthstoneUrl).map(res => res.json());
+  private _hearthstoneCardsJson: HearthstoneCard[];
+
+  private magic8ballResponses: string[] = [
+    "It is certain",
+    "It is decidedly so",
+    "Without a doubt",
+    "Yes definitely",
+    "You may rely on it",
+    "As I see it, yes",
+    "Most likely",
+    "Outlook good",
+    "Yes", 
+    "Signs point to yes",
+    "Reply hazy try again",
+    "Ask again later",
+    "Better not tell you now",
+    "Cannot predict now",
+    "Concentrate and ask again",
+    "Don't count on it",
+    "My reply is no",
+    "My sources say no",
+    "Outlook not so good",
+    "Very doubtful"
+  ];
+
+  constructor(private http: Http, private randomNumberService: SecureRandomNumberService) { 
+    // Load in the hearthstone file if not initialized
+    if(this._hearthstoneCardsJson == undefined) {
+      this._hearthstoneCard$.subscribe(
+        requestData => {
+          this._hearthstoneCardsJson = requestData;
+        },
+        // handle the error
+        error => console.log(error)
       );
     }
-
-  } */
-
-
+  }
 
 }
